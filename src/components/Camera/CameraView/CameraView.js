@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { accessCamera } from '../utils/accessCamera';
+// import { accessCamera } from '../utils/accessCamera';
 
 export default class CameraView extends Component {
 	constructor() {
@@ -13,19 +13,46 @@ export default class CameraView extends Component {
 			video: true
 		}
 
-		this.handleVideoSource = this.handleVideoSource.bind(this)
+		this.accessCamera = this.accessCamera.bind(this)
 	}
+
+
+
+
+
+
+
+	accessCamera() {
+		navigator.getUserMedia = navigator.getUserMedia ||
+	    navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+
+	  const constraints = {
+	  	audio: this.state.audio,
+	  	video: this.state.video
+	  }
+
+		const success = stream => {
+			window.stream = stream;
+
+		  if (window.URL) {
+	    	this.setState({
+	    		source: window.URL.createObjectURL(stream)
+	    	})
+		  } else {
+		  	this.setState({ source:stream })
+		  }
+		}
+
+		const error = ERROR => console.log('ERROR: ', ERROR)
+
+		navigator.getUserMedia(constraints, success, error)
+	}
+
 
 	componentWillMount() {
-		this.handleVideoSource()
-		// console.log('will: ', this.state.source)
+		this.accessCamera()
+		console.log('will: ', this.state.source)
 	}
-
-	handleVideoSource() {
-		const source = accessCamera(this.state)
-		console.log('accessCamera: ', source)
-	}
-
 
 
 	render() {
