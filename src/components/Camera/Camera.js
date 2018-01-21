@@ -1,37 +1,24 @@
 import React, { Component } from 'react';
-import CameraView from './CameraView/CameraView';
+import CameraView from './CameraView/CameraView.js';
+import { accessCamera } from './utils/accessCamera.js';
 
 export default class Camera extends Component {
-	constructor() {
-		super()
+	// constructor() {
+	// 	super()
 
-		this.getImage = this.getImage.bind(this)
-	}
-
-
-	getImage() {
-		const connectCamera = navigator.mediaDevices.getUserMedia({
-	  	audio: true,
-	  	video: { width: 1280, height: 720 }
-		})
-		.then(pokeAtIt => {
-			console.log('ID: ', pokeAtIt.id)
-			const id = pokeAtIt.id
+	// }
 
 
-			console.log(new MediaStream())
-		})
-		.then(stream => stream)
-		.catch(err => console.log("ERROR: ", err))
-	}
 
 	render() {
-		const image = this.props.image;
-		this.getImage()
+		let feed = accessCamera
+		console.log('photo: ', feed)
+
+
 
 		return (
 			<div className="camera-view-container">
-				<CameraView image={'patsy cline'} />
+				<CameraView feed={ feed } />
 				Tits and ass and tits and ass
 			</div>
 		)
