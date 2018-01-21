@@ -7,29 +7,34 @@ export default class CameraView extends Component {
 
 		this.state = {
 			source: '',
+			sourceID: '',
 			permissions: true,
 			audio: false,
 			video: true
 		}
+
 		this.handleVideoSource = this.handleVideoSource.bind(this)
 	}
 
 	componentWillMount() {
 		this.handleVideoSource()
-		console.log(this.state)
+		// console.log('will: ', this.state.source)
 	}
 
 	handleVideoSource() {
-		this.setState( accessCamera(this.state) )
+		const source = accessCamera(this.state)
+		console.log('accessCamera: ', source)
 	}
 
 
 
 	render() {
+		// console.log('sourcery: ', accessCamera(this.state))
 
 		return (
 			<video 	autoPlay
-							src={ this.state.source }
+							src={this.state.source}
+							key={this.state.sourceID}
 							className="cameraImage">
 			</video>
 		)

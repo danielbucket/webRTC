@@ -11,16 +11,18 @@ export const accessCamera = state => {
 		window.stream = stream;
 
 	  if (window.URL) {
-    	state.source = window.URL.createObjectURL(stream);
+    	state.source = window.URL.createObjectURL(stream)
 	  } else {
-	    state.source = stream;
+	    state.source = stream
 	  }
 
-	return ({ source: state.source })
+
+	return {	source: state.source,
+						sourceID: stream.id
+				 }
 	}
 
 	const error = ERROR => console.log('ERROR: ', ERROR)
-
 
 	return navigator.getUserMedia(constraints, success, error)
 }
