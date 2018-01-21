@@ -1,34 +1,35 @@
 import React, { Component } from 'react';
-import {accessCamera} from '../utils/accessCamera';
+import { accessCamera } from '../utils/accessCamera';
 
 export default class CameraView extends Component {
 	constructor() {
 		super()
 
 		this.state = {
-			videoSrc: {},
-			permissions: true
+			source: '',
+			permissions: true,
+			audio: false,
+			video: true
 		}
-
+		this.handleVideoSource = this.handleVideoSource.bind(this)
 	}
 
-	componentDidMount(){
-		if (this.state.permissions) {
-			this.setState({
-				videoSrc: accessCamera(this.state)
-			})
-		}
+	componentWillMount() {
+		this.handleVideoSource()
+		console.log(this.state)
+	}
+
+	handleVideoSource() {
+		this.setState( accessCamera(this.state) )
 	}
 
 
 
 	render() {
 
-		console.log("CameraView.state: ", this.state)
-
 		return (
 			<video 	autoPlay
-							src={ this.state.videoSrc }
+							src={ this.state.source }
 							className="cameraImage">
 			</video>
 		)

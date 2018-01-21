@@ -1,34 +1,26 @@
-
 export const accessCamera = state => {
 	navigator.getUserMedia = navigator.getUserMedia ||
-	    navigator.webkitGetUserMedia || navigator.mozGetUserMedia
+    navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
-	const constraints = {
-	  audio: false,
-	  video: true
-	}
-	// const video = document.querySelector('video')
+  const constraints = {
+  	audio: state.audio,
+  	video: state.video
+  }
 
-
-
-	const successCallback = (stream, state) => {
-	  window.stream = stream //stream available to console
-		console.log("state: ", state)
+	const success = stream => {
+		window.stream = stream;
 
 	  if (window.URL) {
-	    return state.videoSrc = window.URL.createObjectURL(stream)
+    	state.source = window.URL.createObjectURL(stream);
 	  } else {
-	    return state.videoSrc = stream
+	    state.source = stream;
 	  }
+
+	return ({ source: state.source })
 	}
 
+	const error = ERROR => console.log('ERROR: ', ERROR)
 
 
-	const errorCallback = error => {
-	  console.log('navigator.getUserMedia error: ', error);
-	}
-
-
-	console.log('state', state)
-	return navigator.getUserMedia(constraints, successCallback, errorCallback)
-};
+	return navigator.getUserMedia(constraints, success, error)
+}
