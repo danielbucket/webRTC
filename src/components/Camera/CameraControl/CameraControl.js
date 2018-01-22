@@ -8,14 +8,11 @@ export default class CameraControl extends Component {
 
 	
 	render() {
-		const { takePic, getStreamURL } = this.props;
+		const { takePic } = this.props;
 
 		return (
 			<div>
-				<button onClick={e => {
-					takePic(e)
-					getStreamURL()
-				}} >
+				<button onClick={() => takePic() } >
 					Take Photo
 				</button>
 			</div>

@@ -12,47 +12,29 @@ export default class Camera extends Component {
 			source: '',
 			sourceID: '',
 			streamImage: '',
-			streamStatus: false
+			streamStatus: false,
+			canvas: {}
 		}
 
 		this.takePic = this.takePic.bind(this)
-		this.captureImage = this.captureImage.bind(this)
-		this.streamImage = this.streamImage.bind(this)
+		this.getCanvasContext = this.getCanvasContext.bind(this)
 	}
 
 
 
 	// fires when photo button is clicked
 	// used to get the url stream address
-	captureImage(stream) {
-		console.log('stream: ', stream)
+	takePic() {
+		this.getCanvasContext()
 	}
 
 
 
-
-
-	streamImage(streamObj) {
-		console.log('streamImage: ', streamObj)
-	}
-
-	getContext(ctx) {
+	getCanvasContext(ctx) {
 		const canvas = ctx.getContext('2d')
-		console.log('canvas: ', canvas)
 
-		// context.drawImage(this.this.state)
+		this.setState({ canvas:canvas })
 	}
-
-	takePic(e) {
-		console.log('takePic: ', e )
-
-		this.setState(this.captureImage())
-	}
-
-
-
-
-
 
 
 
@@ -62,12 +44,10 @@ export default class Camera extends Component {
 
 				<CameraView />
 
-				<Snapshot sourceURL={ this.state.source }
-									sourceID={ this.state.sourceID }
-									getContext={ this.getContext } />
+				<Snapshot	canvas={ this.state.canvas }
+									getContext={ this.getCanvasContext } />
 
 				<CameraControl 	takePic={ this.takePic }
-												streamImage={ this.state.streamImage }
 												captureImage={ this.captureImage } />
 			</div>
 		)

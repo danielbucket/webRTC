@@ -49,7 +49,7 @@ export default class CameraView extends Component {
 	componentWillMount() {
 		if (!this.state.permissions) {
 			console.log('permissions are set to false')
-			// request permissions here
+			// request media permissions here
 		} else { this.accessCamera() }
 	}
 
