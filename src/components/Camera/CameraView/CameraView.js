@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import { accessCamera } from '../utils/accessCamera';
 
 export default class CameraView extends Component {
 	constructor() {
@@ -16,12 +15,6 @@ export default class CameraView extends Component {
 		this.accessCamera = this.accessCamera.bind(this)
 	}
 
-
-
-
-
-
-
 	accessCamera() {
 		navigator.getUserMedia = navigator.getUserMedia ||
 	    navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
@@ -36,10 +29,14 @@ export default class CameraView extends Component {
 
 		  if (window.URL) {
 	    	this.setState({
-	    		source: window.URL.createObjectURL(stream)
+	    		source: window.URL.createObjectURL(stream),
+	    		sourceID: stream.id
 	    	})
 		  } else {
-		  	this.setState({ source:stream })
+		  	this.setState({
+		  		source:stream,
+		  		sourceID:stream.id
+		  	})
 		  }
 		}
 
@@ -50,19 +47,36 @@ export default class CameraView extends Component {
 
 
 	componentWillMount() {
-		this.accessCamera()
-		console.log('will: ', this.state.source)
+		if (!this.state.permissions) {
+			console.log('permissions are set to false')
+			// request permissions here
+		} else { this.accessCamera() }
+	}
+
+	componentDidMount() {
+
+		if (this.state.source !== '') {
+			this.props.getStreamURL({
+					source:this.state.src,
+					sourceID:this.state.sourceID,
+					streamStatus:true
+			})
+
+			console.log('stream source active')
+		}
+		
+
 	}
 
 
 	render() {
-		// console.log('sourcery: ', accessCamera(this.state))
 
 		return (
 			<video 	autoPlay
-							src={this.state.source}
-							key={this.state.sourceID}
-							className="cameraImage">
+							src={ this.state.source }
+							key={ this.state.sourceID }
+							className="cameraImage"
+							ref="shit">
 			</video>
 		)
 	}
