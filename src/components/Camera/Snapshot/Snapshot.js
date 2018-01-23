@@ -38,7 +38,7 @@ export default class Snapshot extends Component {
 
 		return (
 			<canvas id={ sourceID }
-							ref={ w => this.getCtx(w) } >
+							ref={ x => this.getCtx(x) } >
 			</canvas>
 		)
 	}
